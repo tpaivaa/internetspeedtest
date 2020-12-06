@@ -1,0 +1,11 @@
+[Unit]
+Description=Internetspeedtest every 5 min
+
+[Timer]
+OnBootSec=5min
+OnCalendar=*-*-* *:0/5:*
+Persistent=true
+Unit=speedtest.target
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,12 @@
+[Unit]
+Description=Test internetspeed and store result to InfluxDB
+After=network.target
+Wants=speedtest.timer
+
+[Service]
+Type=oneshot
+User=noderunner
+ExecStart=/usr/bin/python3 /home/noderunner/internetspeedtest/app.py
+
+[Install]
+WantedBy=speedtest.target
