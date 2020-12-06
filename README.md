@@ -2,6 +2,16 @@
 Test internetspeed and log to influxdb
 
 # requirements
+```
+pip3 install Influxdb
+pip3 install speedtest
+```
+# or
+> clone the repo and run 
+```
+python3 -m pip install -r requirements.txt
+```
+
 # Config file where Influx database parameters in python dictionary
 # Just change value to fit your setups
 # config.py 
