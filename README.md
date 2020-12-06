@@ -41,14 +41,14 @@ dbclient = InfluxDBClient(c['host'], c['port'], c['dbuser'], c['dbuser_password'
 ```
 
 # Copy the systemd files and enable service
+```
+sudo cp systemd_examplefiles/* /lib/systemd/system/
+sudo vim  /lib/systemd/system/speedtest.service # fill correct info based on your setup
 
-> sudo cp systemd_examplefiles/* /lib/systemd/system/
-> vim  /lib/systemd/system/speedtest.service # fill correct info based on your setup
-
-> sudo systemctl enable speedtest.timer
-> sudo systemctl start speedtest.timer
-> sudo systemctl enable speedtest.service
-> sudo systemctl status speedtest.service
-
+sudo systemctl enable speedtest.timer
+sudo systemctl start speedtest.timer
+sudo systemctl enable speedtest.service
+sudo systemctl status speedtest.service
+```
 # log systemd service 
 > sudo journalctl -f -u speedtest.service
