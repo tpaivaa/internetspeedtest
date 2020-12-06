@@ -2,6 +2,8 @@
 Test internetspeed and log to influxdb
 
 # requirements
+> Git and Python is needed! Recommend Python3
+
 ```
 pip3 install Influxdb
 pip3 install speedtest
@@ -9,6 +11,7 @@ pip3 install speedtest
 # or
 > clone the repo and run 
 ```
+git clone https://github.com/tpaivaa/internetspeedtest.git
 python3 -m pip install -r requirements.txt
 ```
 
