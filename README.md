@@ -10,7 +10,8 @@ Test internetspeed and log to influxdb
   "host":"x.x.x.x",
   "port":"8086",
   "dbuser":"username",
-  "dbuser_password":"password"
+  "dbuser_password":"password",
+  "dbname":"database"
 }
 ```
 # Use on app.py
