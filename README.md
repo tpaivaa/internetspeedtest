@@ -48,7 +48,9 @@ sudo vim  /lib/systemd/system/speedtest.service # fill correct info based on you
 sudo systemctl enable speedtest.timer
 sudo systemctl start speedtest.timer
 sudo systemctl enable speedtest.service
-sudo systemctl status speedtest.service
 ```
+# Check status of your service
+sudo systemctl status speedtest.service
+
 # log systemd service 
 > sudo journalctl -f -u speedtest.service
