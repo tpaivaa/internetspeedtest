@@ -6,7 +6,7 @@ Test internetspeed and log to influxdb
 
 ```
 pip3 install Influxdb
-pip3 install speedtest
+pip3 install speedtest-cli
 ```
 # or
 > clone the repo and run 
@@ -31,7 +31,7 @@ python3 -m pip install -r requirements.txt
 ```
 import config as c
 
-dbclient = InfluxDBClient(c.host, c.port, c.user, c.password, c.dbname)
+dbclient = InfluxDBClient(c['host'], c['port'], c['dbuser'], c['dbuser_password'], c['dbname'])
 
 ```
 

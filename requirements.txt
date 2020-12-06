@@ -18,7 +18,6 @@ python-dateutil==2.8.1
 pytz==2020.1
 requests==2.25.0
 six==1.15.0
-speedtest==0.0.1
 speedtest-cli==2.1.2
 toml==0.10.1
 urllib3==1.26.2

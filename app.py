@@ -1,7 +1,8 @@
+#!/usr/bin/env python3
 import time, speedtest, json, datetime, sys, traceback, os
 from datetime import timedelta
 from influxdb import InfluxDBClient
-import config as c
+from config import influxDBconfig as c
 
 def exceptionHandleri(e):
     exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -11,13 +12,15 @@ def exceptionHandleri(e):
     print('Ja se Error: ', e)
 
 try:
-  dbclient = InfluxDBClient(c.host, c.port, c.user, c.password, c.dbname)
+  dbclient = InfluxDBClient(c['host'], c['port'], c['dbuser'], c['dbuser_password'], c['dbname'])
   start_time = time.time()
   receiveTime=datetime.datetime.utcnow()
   #
   # Perform computations.
   #
+  
   st = speedtest.Speedtest()
+  st.get_best_server()
   download = st.download()
   elapsed_time_secs = time.time() - start_time
   output =  {"download": str(download) , "executionSpeed" : str(elapsed_time_secs) }
