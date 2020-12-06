@@ -2,7 +2,10 @@
 Test internetspeed and log to influxdb
 
 # requirements
-> Git and Python is needed! Recommend Python3
+> Git and Python and pip is needed! Recommend Python3
+
+# on ubuntu and other debian variants I believe you can do:
+> sudo apt install python3-pip -Y
 
 ```
 pip3 install Influxdb
@@ -15,6 +18,8 @@ git clone https://github.com/tpaivaa/internetspeedtest.git
 python3 -m pip install -r requirements.txt
 ```
 
+> touch config.py
+> ./app.py
 # Config file where Influx database parameters in python dictionary
 # Just change value to fit your setups
 # config.py 

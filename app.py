@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import time, speedtest, json, datetime, sys, traceback, os
+import time, speedtest, json, datetime, sys, traceback, os, socket
 from datetime import timedelta
 from influxdb import InfluxDBClient
 from config import influxDBconfig as c
@@ -15,6 +15,7 @@ try:
   dbclient = InfluxDBClient(c['host'], c['port'], c['dbuser'], c['dbuser_password'], c['dbname'])
   start_time = time.time()
   receiveTime=datetime.datetime.utcnow()
+  running_hostname = socket.gethostname()
   #
   # Perform computations.
   #
@@ -23,10 +24,13 @@ try:
   st.get_best_server()
   download = st.download()
   elapsed_time_secs = time.time() - start_time
-  output =  {"download": str(download) , "executionSpeed" : str(elapsed_time_secs) }
+  output =  {"host": str(running_hostname), "download": str(download) , "executionSpeed" : str(elapsed_time_secs) }
 
   json_body = [
     { "measurement": 'netSpeed',
+      "tags": {
+        "hostname": running_hostname
+      },
       "time": receiveTime,
       "fields": {
           "value": download
