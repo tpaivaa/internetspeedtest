@@ -4,9 +4,9 @@ After=network.target
 Wants=speedtest.timer
 
 [Service]
-Type=oneshot
-User=noderunner
-ExecStart=/usr/bin/python3 /home/noderunner/internetspeedtest/app.py
+Type=simple
+User="user on system here"
+ExecStart=/usr/bin/python3 "location of the app.py on system"
 
 [Install]
 WantedBy=speedtest.target
