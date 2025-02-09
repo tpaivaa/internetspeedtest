@@ -2,6 +2,7 @@
 import time, speedtest, json, datetime, sys, traceback, os, socket
 from datetime import timedelta
 from influxdb import InfluxDBClient
+from influxdb.exceptions import InfluxDBClientError, InfluxDBServerError
 from config import influxDBconfig as c
 
 def exceptionHandleri(e):
@@ -12,33 +13,44 @@ def exceptionHandleri(e):
     print('Ja se Error: ', e)
 
 try:
-  dbclient = InfluxDBClient(c['host'], c['port'], c['dbuser'], c['dbuser_password'], c['dbname'])
-  start_time = time.time()
-  receiveTime=datetime.datetime.utcnow()
-  running_hostname = socket.gethostname()
-  #
-  # Perform computations.
-  #
-  
-  st = speedtest.Speedtest()
-  st.get_best_server()
-  download = st.download()
-  elapsed_time_secs = time.time() - start_time
-  output =  {"host": str(running_hostname), "download": str(download) , "executionSpeed" : str(elapsed_time_secs) }
+    dbclient = InfluxDBClient(c['host'], c['port'], c['dbuser'], c['dbuser_password'], c['dbname'])
+    start_time = time.time()
+    receiveTime = datetime.datetime.now(datetime.timezone.utc)
+    running_hostname = socket.gethostname()
 
-  json_body = [
-    { "measurement": 'netSpeed',
-      "tags": {
-        "hostname": running_hostname
-      },
-      "time": receiveTime,
-      "fields": {
-          "value": download
-      }
+    st = speedtest.Speedtest()
+    st.get_best_server()  # Find the best server
+    download_bps = st.download()
+    upload_bps = st.upload()
+    ping = st.results.ping  # Get the ping value
+
+    download_mbps = download_bps / 1000000  # Convert to Mbps
+    upload_mbps = upload_bps / 1000000  # Convert to Mbps
+
+    output = {
+        "host": running_hostname,
+        "download_Mbps": download_mbps,
+        "upload_Mbps": upload_mbps,
+        "ping_ms": ping,
+        "executionSpeed": time.time() - start_time
     }
-  ]
-  dbclient.write_points(json_body)
-  print (json.dumps(output, indent=4))
 
-except Exception as e:
+    json_body = [
+        {
+            "measurement": 'netSpeed',
+            "tags": {
+                "hostname": running_hostname
+            },
+            "time": receiveTime,
+            "fields": {
+                "download_Mbps": download_mbps,
+                "upload_Mbps": upload_mbps,
+                "ping_ms": ping
+            }
+        }
+    ]
+    dbclient.write_points(json_body)
+    print(json.dumps(output, indent=4))
+
+except (InfluxDBClientError, InfluxDBServerError, speedtest.SpeedtestException, socket.error) as e:
   exceptionHandleri(e)
